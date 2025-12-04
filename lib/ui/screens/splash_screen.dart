@@ -1,54 +1,48 @@
-// lib/ui/screens/splash_screen.dart
 import 'dart:async';
 import 'package:flutter/material.dart';
-import '../../theme/app_colors.dart';
-import '../../theme/app_text_styles.dart';
-import 'login_screen.dart';
+import '../screens/login_screen.dart';
+import '../screens/main_shell_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
-
-  static const routeName = '/splash';
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  bool _isLogged = false; // Aqui depois você troca pela verificação real
+
   @override
   void initState() {
     super.initState();
+
+    // Simula carregamento + verificação de login
     Timer(const Duration(seconds: 2), () {
-      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+      if (_isLogged) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const MainShellScreen()),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const LoginScreen()),
+        );
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.primaryPurple,
+    return const Scaffold(
       body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            Icon(
-              Icons.home_outlined,
-              size: 72,
-              color: Colors.white,
-            ),
-            SizedBox(height: 16),
-            Text(
-              'Avalyst',
-              style: AppTextStyles.titleLarge
-                  .copyWith(color: Colors.white, fontSize: 26),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'App do Inquilino',
-              style: AppTextStyles.bodySecondary
-                  .copyWith(color: Colors.white70),
-            ),
-          ],
+        child: Text(
+          'Avalyst',
+          style: TextStyle(
+            fontSize: 32,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );

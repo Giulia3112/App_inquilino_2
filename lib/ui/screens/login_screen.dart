@@ -1,97 +1,90 @@
-// lib/ui/screens/login_screen.dart
-
 import 'package:flutter/material.dart';
+import 'main_shell_screen.dart';
 import '../../theme/app_colors.dart';
-import '../../theme/app_text_styles.dart';
-import '../widgets/main_scaffold.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
-
-  static const routeName = '/login';
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final _emailCtrl = TextEditingController();
-  final _passwordCtrl = TextEditingController();
-
-  @override
-  void dispose() {
-    _emailCtrl.dispose();
-    _passwordCtrl.dispose();
-    super.dispose();
-  }
-
-  void _submit() {
-    if (_formKey.currentState?.validate() ?? false) {
-      Navigator.pushReplacementNamed(context, MainScaffold.routeName);
-    }
-  }
+  final TextEditingController email = TextEditingController();
+  final TextEditingController senha = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Spacer(flex: 1),
+              const Spacer(),
               const Text(
-                'Bem-vindo(a)',
-                style: AppTextStyles.titleLarge,
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'Entre para acompanhar seu aluguel com a Avalyst.',
-                style: AppTextStyles.bodySecondary,
-              ),
-              const SizedBox(height: 32),
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    TextFormField(
-                      controller: _emailCtrl,
-                      decoration: const InputDecoration(
-                        labelText: 'E-mail',
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Informe seu e-mail';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16),
-                    TextFormField(
-                      controller: _passwordCtrl,
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        labelText: 'Senha',
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Informe sua senha';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 24),
-                    ElevatedButton(
-                      onPressed: _submit,
-                      child: const Text('Entrar'),
-                    ),
-                  ],
+                "Bem-vindo!",
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
-              const Spacer(flex: 2),
+              const SizedBox(height: 12),
+              Text(
+                "Faça login para acessar sua conta de inquilino.",
+                style: TextStyle(
+                  fontSize: 14,
+                  color: AppColors.textSecondary,
+                ),
+              ),
+              const SizedBox(height: 32),
+
+              TextField(
+                controller: email,
+                decoration: const InputDecoration(
+                  labelText: "E-mail",
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              TextField(
+                controller: senha,
+                obscureText: true,
+                decoration: const InputDecoration(
+                  labelText: "Senha",
+                  border: OutlineInputBorder(),
+                ),
+              ),
+
+              const Spacer(),
+
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryPurple,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                  ),
+                  onPressed: () {
+                    // TODO: validar login
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const MainShellScreen(),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    "Entrar",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 32),
             ],
           ),
         ),
@@ -99,4 +92,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-

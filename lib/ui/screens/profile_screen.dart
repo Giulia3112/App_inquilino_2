@@ -1,57 +1,116 @@
-// lib/ui/screens/profile_screen.dart
-
 import 'package:flutter/material.dart';
 import '../../theme/app_colors.dart';
-import '../../theme/app_text_styles.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
-  static const routeName = '/profile';
-
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          const CircleAvatar(
-            radius: 36,
-            backgroundColor: AppColors.primaryPurpleLight,
-            child: Icon(Icons.person_outline, size: 32),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Meu perfil'),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              const CircleAvatar(
+                radius: 36,
+                child: Icon(Icons.person, size: 40),
+              ),
+              const SizedBox(height: 12),
+              const Text(
+                'Nome do Inquilino',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                'email@exemplo.com',
+                style: TextStyle(
+                  color: AppColors.textSecondary,
+                  fontSize: 13,
+                ),
+              ),
+              const SizedBox(height: 24),
+              Card(
+                child: Column(
+                  children: const [
+                    _ProfileItem(
+                      icon: Icons.home_outlined,
+                      label: 'Meus imóveis',
+                    ),
+                    Divider(height: 0),
+                    _ProfileItem(
+                      icon: Icons.lock_outline,
+                      label: 'Segurança da conta',
+                    ),
+                    Divider(height: 0),
+                    _ProfileItem(
+                      icon: Icons.description_outlined,
+                      label: 'Documentos',
+                    ),
+                  ],
+                ),
+              ),
+              const Spacer(),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: AppColors.borderColor),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  onPressed: () {
+                    // TODO: Implementar logout
+                  },
+                  child: const Text(
+                    'Sair da conta',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 12),
-          const Text(
-            'Nome do Inquilino',
-            style: AppTextStyles.titleMedium,
-          ),
-          const SizedBox(height: 4),
-          const Text(
-            'email@exemplo.com',
-            style: AppTextStyles.bodySecondary,
-          ),
-          const SizedBox(height: 24),
-          ListTile(
-            leading: const Icon(Icons.phone_outlined),
-            title: const Text('Telefone', style: AppTextStyles.bodyRegular),
-            subtitle: const Text(
-              '(41) 99999-9999',
-              style: AppTextStyles.bodySecondary,
-            ),
-            onTap: () {},
-          ),
-          ListTile(
-            leading: const Icon(Icons.badge_outlined),
-            title: const Text('CPF', style: AppTextStyles.bodyRegular),
-            subtitle: const Text(
-              '000.000.000-00',
-              style: AppTextStyles.bodySecondary,
-            ),
-            onTap: () {},
-          ),
-        ],
+        ),
       ),
     );
   }
 }
 
+class _ProfileItem extends StatelessWidget {
+  final IconData icon;
+  final String label;
+
+  const _ProfileItem({
+    required this.icon,
+    required this.label,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Icon(icon),
+      title: Text(
+        label,
+        style: const TextStyle(
+          fontSize: 15,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+      trailing: const Icon(Icons.chevron_right),
+      onTap: () {
+        // TODO: Implementar navegação
+      },
+    );
+  }
+}
