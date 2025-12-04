@@ -1,8 +1,14 @@
+// lib/ui/screens/splash_screen.dart
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'welcome_screen.dart';
+import '../../theme/app_colors.dart';
+import '../../theme/app_text_styles.dart';
+import 'login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
+
+  static const routeName = '/splash';
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -12,39 +18,37 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Depois de 1 segundo, vai para a tela de boas-vindas
-    Future.delayed(const Duration(seconds: 1), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const WelcomeScreen()),
-      );
+    Timer(const Duration(seconds: 2), () {
+      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFF031A70),
-              Color(0xFF8D65F7),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: const Center(
-          child: Text(
-            'app do\ninquilino\nAvalyst',
-            textAlign: TextAlign.center,
-            style: TextStyle(
+      backgroundColor: AppColors.primaryPurple,
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            Icon(
+              Icons.home_outlined,
+              size: 72,
               color: Colors.white,
-              fontFamily: 'GothamRounded', // ou padrão se ainda não configurou
-              fontSize: 24,
-              fontWeight: FontWeight.w500,
             ),
-          ),
+            SizedBox(height: 16),
+            Text(
+              'Avalyst',
+              style: AppTextStyles.titleLarge
+                  .copyWith(color: Colors.white, fontSize: 26),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'App do Inquilino',
+              style: AppTextStyles.bodySecondary
+                  .copyWith(color: Colors.white70),
+            ),
+          ],
         ),
       ),
     );
