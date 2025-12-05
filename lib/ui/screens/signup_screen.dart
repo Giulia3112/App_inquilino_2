@@ -1,33 +1,33 @@
 import 'package:flutter/material.dart';
 import '../../theme/app_colors.dart';
-import 'main_shell_screen.dart';
-import 'signup_screen.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
-  static const String routeName = '/login';
+  static const String routeName = '/signup';
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState extends State<SignupScreen> {
+  final _nameController = TextEditingController();
+  final _cpfController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
   bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
 
   @override
   void dispose() {
+    _nameController.dispose();
+    _cpfController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
-  }
-
-  void _doLogin() {
-    // TODO: validar credenciais
-    Navigator.pushReplacementNamed(context, MainShellScreen.routeName);
   }
 
   @override
@@ -38,9 +38,9 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          // Cabeçalho com gradiente
+          // Fundo em degradê azul
           Container(
-            height: size.height * 0.38,
+            height: size.height * 0.48,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.centerLeft,
@@ -55,10 +55,11 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
 
+          // Card branco inferior
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              height: size.height * 0.68,
+              height: size.height * 0.62,
               padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
               decoration: const BoxDecoration(
                 color: Colors.white,
@@ -71,50 +72,57 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Linha voltar
-                    Row(
-                      children: [
-                        IconButton(
-                          padding: EdgeInsets.zero,
-                          visualDensity: VisualDensity.compact,
-                          icon: const Icon(
+                    // ---------- BOTÃO VOLTAR ----------
+                    GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () {
+                        Navigator.of(context).maybePop();
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: const [
+                          Icon(
                             Icons.arrow_back_ios,
                             size: 18,
                             color: AppColors.avalystGreen,
                           ),
-                          onPressed: () => Navigator.pop(context),
-                        ),
-                        const SizedBox(width: 4),
-                        const Text(
-                          'Voltar',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: AppColors.avalystGreen,
-                            fontWeight: FontWeight.w500,
+                          SizedBox(width: 4),
+                          Text(
+                            'Voltar',
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: AppColors.avalystGreen,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
 
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 12),
 
                     const Text(
-                      'Entrar',
+                      'Confirme seus dados',
                       style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xFF203555),
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'Acesse o app do inquilino.',
-                      style: TextStyle(
-                        color: AppColors.textSecondary,
-                        fontSize: 14,
-                      ),
-                    ),
+
                     const SizedBox(height: 24),
+
+                    _buildTextField(
+                      label: 'Nome completo',
+                      controller: _nameController,
+                    ),
+                    const SizedBox(height: 12),
+
+                    _buildTextField(
+                      label: 'CPF',
+                      controller: _cpfController,
+                      keyboardType: TextInputType.number,
+                    ),
+                    const SizedBox(height: 12),
 
                     _buildTextField(
                       label: 'E-mail',
@@ -142,9 +150,32 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                       ),
                     ),
+                    const SizedBox(height: 12),
+
+                    _buildTextField(
+                      label: 'Confirmar senha',
+                      controller: _confirmPasswordController,
+                      obscureText: _obscureConfirmPassword,
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscureConfirmPassword
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined,
+                          color: AppColors.avalystGreen,
+                          size: 20,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscureConfirmPassword =
+                                !_obscureConfirmPassword;
+                          });
+                        },
+                      ),
+                    ),
 
                     const SizedBox(height: 24),
 
+                    // ---------- BOTÃO CADASTRAR ----------
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
@@ -156,30 +187,19 @@ class _LoginScreenState extends State<LoginScreen> {
                             borderRadius: BorderRadius.circular(27),
                           ),
                         ),
-                        onPressed: _doLogin,
+                        onPressed: () {
+                          // Por enquanto, após "cadastrar" vai para o shell principal (Home + tabs)
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            '/main-shell', // precisa estar registrado no main.dart
+                            (route) => false,
+                          );
+                        },
                         child: const Text(
-                          'Entrar',
+                          'Cadastrar',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 16),
-                    Center(
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(
-                              context, SignupScreen.routeName);
-                        },
-                        child: const Text(
-                          'Não tem cadastro? Crie sua conta',
-                          style: TextStyle(
-                            color: AppColors.avalystGreen,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),

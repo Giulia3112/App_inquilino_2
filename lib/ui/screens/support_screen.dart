@@ -1,133 +1,148 @@
 import 'package:flutter/material.dart';
 import '../../theme/app_colors.dart';
+import 'send_request_screen.dart';
 
 class SupportScreen extends StatelessWidget {
   const SupportScreen({super.key});
 
+  static const String routeName = '/support';
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Suporte Avalyst'),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Como podemos te ajudar?',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                'Escolha uma opção abaixo ou envie uma mensagem para nossa equipe.',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: AppColors.textSecondary,
-                ),
-              ),
-              const SizedBox(height: 24),
-              _SupportOptionTile(
-                icon: Icons.chat_bubble_outline,
-                title: 'Chat com a equipe Avalyst',
-                subtitle: 'Fale com nosso atendimento sobre sua garantia.',
-                onTap: () {
-                  // TODO: Implementar navegação para chat/contato
-                },
-              ),
-              _SupportOptionTile(
-                icon: Icons.phone_outlined,
-                title: 'Central de atendimento',
-                subtitle: 'Ligue para tirar dúvidas urgentes.',
-                onTap: () {
-                  // TODO: Implementar ligação ou exibição de número
-                },
-              ),
-              _SupportOptionTile(
-                icon: Icons.email_outlined,
-                title: 'E-mail de suporte',
-                subtitle: 'Envie uma solicitação detalhada para nossa equipe.',
-                onTap: () {
-                  // TODO: Implementar redirecionamento para e-mail
-                },
-              ),
-              const Spacer(),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryPurple,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  onPressed: () {
-                    // TODO: Implementar abertura de ticket/mensagem
-                  },
-                  child: const Text(
-                    'Abrir chamado',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
+    return Scaffold(
+      backgroundColor: const Color(0xFFF4F5F9),
+      body: Column(
+        children: [
+          _buildHeader(context),
+          const SizedBox(height: 24),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Row(
+              children: [
+                Expanded(
+                  child: _SupportOptionCard(
+                    icon: Icons.phone_in_talk_outlined,
+                    label: 'Whatsapp\nAvalyst',
+                    onTap: () {
+                      // TODO: abrir link ou deep link do WhatsApp real
+                    },
                   ),
                 ),
-              )
-            ],
+                const SizedBox(width: 16),
+                Expanded(
+                  child: _SupportOptionCard(
+                    icon: Icons.chat_bubble_outline, // TODO: ícone oficial "Envie uma solicitação"
+                    label: 'Envie uma\nsolicitação',
+                    onTap: () {
+                      Navigator.pushNamed(context, SendRequestScreen.routeName);
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(
+        top: 48,
+        left: 20,
+        right: 20,
+        bottom: 20,
+      ),
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+          colors: [
+            AppColors.avalystBlueLight,
+            AppColors.avalystBlueMid,
+            AppColors.avalystBlueDark,
+          ],
+          stops: [0.0, 0.773, 1.0],
         ),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(24),
+          bottomRight: Radius.circular(24),
+        ),
+      ),
+      child: Row(
+        children: [
+          const Icon(
+            Icons.headset_mic_outlined,
+            color: AppColors.avalystGreen,
+          ),
+          const SizedBox(width: 8),
+          const Expanded(
+            child: Text(
+              'Suporte',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+          IconButton(
+            icon: const Icon(
+              Icons.menu,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              // TODO: abrir menu
+            },
+          ),
+        ],
       ),
     );
   }
 }
 
-class _SupportOptionTile extends StatelessWidget {
+class _SupportOptionCard extends StatelessWidget {
   final IconData icon;
-  final String title;
-  final String subtitle;
+  final String label;
   final VoidCallback onTap;
 
-  const _SupportOptionTile({
+  const _SupportOptionCard({
     required this.icon,
-    required this.title,
-    required this.subtitle,
+    required this.label,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      child: ListTile(
+    return Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(18),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(18),
         onTap: onTap,
-        leading: CircleAvatar(
-          backgroundColor: AppColors.primaryPurple.withOpacity(0.08),
-          child: Icon(
-            icon,
-            color: AppColors.primaryPurple,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                icon,
+                size: 36,
+                color: AppColors.avalystGreen,
+              ),
+              const SizedBox(height: 12),
+              Text(
+                label,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Color(0xFF203555),
+                  fontSize: 14,
+                ),
+              ),
+            ],
           ),
         ),
-        title: Text(
-          title,
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        subtitle: Text(
-          subtitle,
-          style: TextStyle(
-            color: AppColors.textSecondary,
-            fontSize: 13,
-          ),
-        ),
-        trailing: const Icon(Icons.chevron_right),
       ),
     );
   }

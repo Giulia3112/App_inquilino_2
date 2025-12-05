@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../theme/app_colors.dart';
-import 'inform_move_out_screen.dart';
 
-class ContractDetailsScreen extends StatelessWidget {
-  const ContractDetailsScreen({super.key});
+class DebtNegotiationScreen extends StatelessWidget {
+  static const String routeName = '/debt-negotiation';
 
-  static const String routeName = '/contract-details';
+  const DebtNegotiationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,59 +13,48 @@ class ContractDetailsScreen extends StatelessWidget {
       body: Column(
         children: [
           _buildHeader(context),
-          const SizedBox(height: 24),
           Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
               child: Column(
                 children: [
-                  _InfoCard(
-                    title: 'Contrato',
-                    lines: const [
-                      'ALAN SERGIO DE CAMPOS',
-                      'Contrato iniciado em 03/10/2023',
-                      'Nº 46233',
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  _InfoCard(
-                    title: 'Dados do Imóvel',
-                    lines: const [
-                      'APOLAR PINHAIS',
-                      'AVENIDA MARINGÁ, 4155 - D',
-                      'ATUBA - PINHAIS - PR',
-                      'CEP 83326-010',
-                    ],
-                  ),
+                  _buildMainCard(),
                   const SizedBox(height: 24),
+                  const Text(
+                    'Negocie seus débitos em aberto com condições especiais '
+                    'diretamente pelo Acerto Fácil Avalyst.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Color(0xFF4F5B6C),
+                      height: 1.4,
+                    ),
+                  ),
+                  const Spacer(),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.avalystGreen,
                         foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        padding:
+                            const EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(27),
                         ),
                       ),
                       onPressed: () {
-                        Navigator.pushNamed(
-                          context,
-                          InformMoveOutScreen.routeName,
-                        );
+                        // TODO: abrir link ou webview do Acerto Fácil
                       },
                       child: const Text(
-                        'Informar desocupação do imóvel',
-                        textAlign: TextAlign.center,
+                        'Negociar agora',
                         style: TextStyle(
-                          fontSize: 15,
+                          fontSize: 16,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 24),
                 ],
               ),
             ),
@@ -111,7 +99,7 @@ class ContractDetailsScreen extends StatelessWidget {
           const SizedBox(width: 4),
           const Expanded(
             child: Text(
-              'Informar desocupação',
+              'Negociação de débito',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18,
@@ -123,47 +111,45 @@ class ContractDetailsScreen extends StatelessWidget {
       ),
     );
   }
-}
 
-class _InfoCard extends StatelessWidget {
-  final String title;
-  final List<String> lines;
-
-  const _InfoCard({
-    required this.title,
-    required this.lines,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(18),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: const TextStyle(
-                color: AppColors.avalystGreen,
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-              ),
+  Widget _buildMainCard() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x15000000),
+            blurRadius: 6,
+            offset: Offset(0, 2),
+          )
+        ],
+      ),
+      child: Column(
+        children: const [
+          SizedBox(height: 8),
+          Text(
+            'Acerto Fácil Avalyst',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+              color: Color(0xFF003A70),
             ),
-            const SizedBox(height: 8),
-            ...lines.map(
-              (line) => Text(
-                line,
-                style: const TextStyle(
-                  color: Color(0xFF203555),
-                  fontSize: 14,
-                ),
-              ),
+          ),
+          SizedBox(height: 12),
+          Text(
+            'Conectamos você à imobiliária para renegociar seus débitos '
+            'de forma simples, rápida e 100% online.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 13,
+              color: Color(0xFF4F5B6C),
+              height: 1.4,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

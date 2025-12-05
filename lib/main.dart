@@ -1,15 +1,29 @@
-// lib/main.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
 import 'theme/app_theme.dart';
+
 import 'ui/screens/splash_screen.dart';
+import 'ui/screens/welcome_screen.dart';
 import 'ui/screens/login_screen.dart';
-import 'ui/widgets/main_scaffold.dart';
-import 'ui/screens/contract_details_screen.dart';
-import 'ui/screens/documents_screen.dart';
+import 'ui/screens/main_shell_screen.dart';
+import 'ui/screens/home_screen.dart';
 import 'ui/screens/support_screen.dart';
 import 'ui/screens/club_screen.dart';
-import 'ui/screens/payment_data_screen.dart';
 import 'ui/screens/profile_screen.dart';
+import 'ui/screens/signup_screen.dart';
+import 'ui/screens/no_proposal_screen.dart';
+import 'ui/screens/rent_management_screen.dart';
+import 'ui/screens/contract_details_screen.dart';
+import 'ui/screens/inform_move_out_screen.dart';
+import 'ui/screens/move_out_confirmed_screen.dart';
+import 'ui/screens/send_request_screen.dart';
+import 'ui/screens/send_request_success_screen.dart';
+import 'ui/screens/documents_screen.dart';
+import 'ui/screens/card_data_screen.dart';
+import 'ui/screens/rent_payment_screen.dart';
+import 'ui/screens/debt_negotiation_screen.dart';
+import 'ui/screens/contact_screen.dart';
 
 void main() {
   runApp(const AvalystApp());
@@ -26,17 +40,52 @@ class AvalystApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       initialRoute: SplashScreen.routeName,
+
       routes: {
         SplashScreen.routeName: (_) => const SplashScreen(),
+        WelcomeScreen.routeName: (_) => const WelcomeScreen(),
         LoginScreen.routeName: (_) => const LoginScreen(),
-        MainScaffold.routeName: (_) => const MainScaffold(),
-        ContractDetailsScreen.routeName: (_) => const ContractDetailsScreen(),
-        DocumentsScreen.routeName: (_) => const DocumentsScreen(),
+        SignupScreen.routeName: (_) => const SignupScreen(),
+        NoProposalScreen.routeName: (_) => const NoProposalScreen(),
+
+        MainShellScreen.routeName: (_) => const MainShellScreen(),
+        HomeScreen.routeName: (_) => const HomeScreen(),
+
         SupportScreen.routeName: (_) => const SupportScreen(),
         ClubScreen.routeName: (_) => const ClubScreen(),
-        PaymentDataScreen.routeName: (_) => const PaymentDataScreen(),
         ProfileScreen.routeName: (_) => const ProfileScreen(),
+
+        SendRequestScreen.routeName: (_) => const SendRequestScreen(),
+        SendRequestSuccessScreen.routeName: (_) =>
+            const SendRequestSuccessScreen(),
+
+        DocumentsScreen.routeName: (_) => const DocumentsScreen(),
+        CardDataScreen.routeName: (_) => const CardDataScreen(),
+
+        RentManagementScreen.routeName: (_) => const RentManagementScreen(),
+        ContractDetailsScreen.routeName: (_) =>
+            const ContractDetailsScreen(),
+        InformMoveOutScreen.routeName: (_) =>
+            const InformMoveOutScreen(),
+        MoveOutConfirmedScreen.routeName: (_) =>
+            const MoveOutConfirmedScreen(),
+
+        RentPaymentScreen.routeName: (_) => const RentPaymentScreen(),
+        DebtNegotiationScreen.routeName: (_) =>
+            const DebtNegotiationScreen(),
+
+        ContactScreen.routeName: (_) => const ContactScreen(),
       },
+
+      locale: const Locale('pt', 'BR'),
+      supportedLocales: const [
+        Locale('pt', 'BR'),
+      ],
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
     );
   }
 }

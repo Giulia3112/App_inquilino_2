@@ -1,115 +1,76 @@
 import 'package:flutter/material.dart';
 import '../../theme/app_colors.dart';
 
-class ClubAvalystScreen extends StatelessWidget {
-  const ClubAvalystScreen({super.key});
+class ClubScreen extends StatelessWidget {
+  const ClubScreen({super.key});
+
+  static const String routeName = '/club';
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Clube Avalyst'),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Benefícios exclusivos para inquilinos Avalyst',
+    return Scaffold(
+      backgroundColor: const Color(0xFFF4F5F9),
+      body: Column(
+        children: [
+          _buildHeader(context),
+          const SizedBox(height: 24),
+          Expanded(
+            child: Center(
+              child: Text(
+                'Em breve você verá aqui\nas ofertas do Clube Avalyst.',
+                textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Aproveite descontos em serviços, experiências e produtos parceiros.',
-                style: TextStyle(
-                  fontSize: 14,
                   color: AppColors.textSecondary,
+                  fontSize: 14,
                 ),
               ),
-              const SizedBox(height: 16),
-              Expanded(
-                child: ListView(
-                  children: const [
-                    _BenefitCard(
-                      title: 'Desconto em serviços de mudança',
-                      partner: 'Parceiro: Mudanças Rápidas',
-                      description:
-                          '10% de desconto em fretes e mudanças para inquilinos Avalyst.',
-                    ),
-                    _BenefitCard(
-                      title: 'Limpeza residencial',
-                      partner: 'Parceiro: Casa Limpinha',
-                      description:
-                          'Cupons mensais para limpeza com profissionais de confiança.',
-                    ),
-                    _BenefitCard(
-                      title: 'Seguros e serviços',
-                      partner: 'Parceiro: Protege+',
-                      description:
-                          'Condições especiais em seguros residenciais e serviços adicionais.',
-                    ),
-                  ],
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
-}
 
-class _BenefitCard extends StatelessWidget {
-  final String title;
-  final String partner;
-  final String description;
-
-  const _BenefitCard({
-    required this.title,
-    required this.partner,
-    required this.description,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              partner,
-              style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-                color: AppColors.primaryPurple,
-              ),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              description,
-              style: TextStyle(
-                fontSize: 13,
-                color: AppColors.textSecondary,
-              ),
-            ),
+  Widget _buildHeader(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(
+        top: 48,
+        left: 20,
+        right: 20,
+        bottom: 20,
+      ),
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+          colors: [
+            AppColors.avalystBlueLight,
+            AppColors.avalystBlueMid,
+            AppColors.avalystBlueDark,
           ],
+          stops: [0.0, 0.773, 1.0],
         ),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(24),
+          bottomRight: Radius.circular(24),
+        ),
+      ),
+      child: Row(
+        children: const [
+          Icon(
+            Icons.local_offer_outlined,
+            color: AppColors.avalystGreen,
+          ),
+          SizedBox(width: 8),
+          Text(
+            'Clube Avalyst',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ],
       ),
     );
   }

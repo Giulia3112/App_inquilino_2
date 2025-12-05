@@ -1,139 +1,156 @@
 import 'package:flutter/material.dart';
-import 'package:app_inquilino_2/ui/screens/main_shell.dart';
-import 'package:app_inquilino_2/ui/screens/register_screen.dart';
+import '../../theme/app_colors.dart';
+import 'login_screen.dart';
+import 'signup_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
+  static const String routeName = '/welcome';
+
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
-      body: Column(
+      backgroundColor: Colors.white,
+      body: Stack(
         children: [
-          // Hero da parte de cima
-          Expanded(
-            flex: 4,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                Container(
-                  color: Colors.blueGrey, // placeholder pra imagem
-                ),
-                Container(
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Colors.transparent, Colors.black45],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ),
-                  ),
-                ),
-                const Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Padding(
-                    padding: EdgeInsets.all(24.0),
-                    child: Text(
-                      'app do aluguel\nsem stress!',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'GothamRounded',
-                        fontSize: 24,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+          // Header com gradiente (onde ficaria a foto + logo)
+          Container(
+            height: size.height * 0.48,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [
+                  AppColors.avalystBlueLight,
+                  AppColors.avalystBlueMid,
+                  AppColors.avalystBlueDark,
+                ],
+                stops: [0.0, 0.773, 1.0],
+              ),
             ),
           ),
 
-          // Card de baixo com botões
-          Expanded(
-            flex: 3,
+          // Cartão branco inferior
+          Align(
+            alignment: Alignment.bottomCenter,
             child: Container(
-              width: double.infinity,
+              height: size.height * 0.55,
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
               decoration: const BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(32),
+                  topRight: Radius.circular(32),
+                ),
               ),
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
                 children: [
+                  const SizedBox(height: 8),
                   const Text(
-                    'Bem-vindo ao app do aluguel sem stress!',
+                    'Bem-vindo ao app do\naluguel sem stress!',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontFamily: 'GothamRounded',
+                      color: AppColors.avalystGreen,
                       fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF96C83C),
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                   const SizedBox(height: 8),
-                  const Text(
+                  Text(
                     'Para simplificar o seu dia a dia.',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontFamily: 'SegoeUI',
-                      fontSize: 13,
-                      color: Color(0xFF1A3057),
+                      color: AppColors.textSecondary,
+                      fontSize: 14,
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 32),
 
-                  // BOTÃO ENTRAR → MainShell
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF96C83C),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (_) => MainShell(),
+                  // Botão "Entrar"
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.avalystGreen,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(27),
                         ),
-                      );
-                    },
-                    child: const Text(
-                      'Entrar',
-                      style: TextStyle(
-                        fontFamily: 'SegoeUI',
-                        fontSize: 14,
-                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, LoginScreen.routeName);
+                      },
+                      child: const Text(
+                        'Entrar',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ),
 
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 16),
 
-                  // BOTÃO CADASTRAR → RegisterScreen
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: Color(0xFF96C83C)),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => RegisterScreen(),
+                  // Divisor "Ou"
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          height: 1,
+                          color: Colors.grey.shade300,
                         ),
-                      );
-                    },
-                    child: const Text(
-                      'Cadastrar',
-                      style: TextStyle(
-                        fontFamily: 'GothamRounded',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF96C83C),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        child: Text(
+                          'Ou',
+                          style: TextStyle(
+                            color: Color(0xFF707070),
+                            fontSize: 13,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          height: 1,
+                          color: Colors.grey.shade300,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // Botão "Cadastrar"
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(
+                          color: AppColors.avalystGreen,
+                          width: 2,
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(27),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, SignupScreen.routeName);
+                      },
+                      child: const Text(
+                        'Cadastrar',
+                        style: TextStyle(
+                          color: AppColors.avalystGreen,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ),
@@ -146,4 +163,3 @@ class WelcomeScreen extends StatelessWidget {
     );
   }
 }
-

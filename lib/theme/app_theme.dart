@@ -30,7 +30,7 @@ class AppTheme {
         displayColor: AppColors.textPrimary,
         fontFamily: 'Roboto',
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: AppColors.cardBackground,
         elevation: 1,
         shape: RoundedRectangleBorder(
@@ -74,12 +74,12 @@ class AppTheme {
         secondary: AppColors.accentGreen,
         background: AppColors.backgroundDark,
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: const Color(0xFF202033),
         elevation: 1,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: BorderSide(color: Colors.white.withOpacity(0.05)),
+          side: const BorderSide(color: Colors.white24),
         ),
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(

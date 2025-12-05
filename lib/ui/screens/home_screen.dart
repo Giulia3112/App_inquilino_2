@@ -1,173 +1,210 @@
 import 'package:flutter/material.dart';
-import '../../theme/app_colors.dart';
+import '../widgets/app_menu_drawer.dart';
+import '../widgets/app_header.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('App do Inquilino'),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Olá, inquilino 👋',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Veja o status da sua garantia e do seu aluguel.',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: AppColors.textSecondary,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: AppColors.accentGreen.withOpacity(0.12),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Icon(
-                          Icons.verified_user_outlined,
-                          size: 28,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Garantia em dia',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              'Seu aluguel está protegido pela Avalyst. Nenhuma pendência no momento.',
-                              style: TextStyle(
-                                fontSize: 13,
-                                color: AppColors.textSecondary,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'Ações rápidas',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Wrap(
-                spacing: 12,
-                runSpacing: 12,
-                children: [
-                  _QuickActionButton(
-                    icon: Icons.receipt_long_outlined,
-                    label: 'Ver boletos',
-                    onTap: () {
-                      // TODO: Navegar para tela de boletos/detalhes do aluguel
-                    },
-                  ),
-                  _QuickActionButton(
-                    icon: Icons.description_outlined,
-                    label: 'Documentos',
-                    onTap: () {
-                      // TODO: Navegar para tela de documentos
-                    },
-                  ),
-                  _QuickActionButton(
-                    icon: Icons.headset_mic_outlined,
-                    label: 'Falar com suporte',
-                    onTap: () {
-                      // TODO: Navegar para suporte
-                    },
-                  ),
-                  _QuickActionButton(
-                    icon: Icons.card_giftcard_outlined,
-                    label: 'Clube Avalyst',
-                    onTap: () {
-                      // TODO: Navegar para Clube Avalyst
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+enum GuaranteeStatus {
+  upToDate,
+  overdue,
 }
 
-class _QuickActionButton extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final VoidCallback onTap;
+class HomeScreen extends StatelessWidget {
+  static const routeName = '/home';
 
-  const _QuickActionButton({
-    required this.icon,
-    required this.label,
-    required this.onTap,
+  final GuaranteeStatus status;
+
+  const HomeScreen({
+    super.key,
+    this.status = GuaranteeStatus.upToDate,
   });
+
+  bool get _isOverdue => status == GuaranteeStatus.overdue;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(16),
-      onTap: onTap,
-      child: Container(
-        width: 140,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: const Border.fromBorderSide(
-            BorderSide(color: AppColors.borderColor),
-          ),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
+    return Scaffold(
+      drawer: const AppMenuDrawer(),
+      backgroundColor: const Color(0xFFF5F6FA),
+      body: SafeArea(
+        child: Column(
           children: [
-            Icon(icon, size: 20),
-            const SizedBox(width: 8),
-            Flexible(
-              child: Text(
-                label,
-                style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
+            AppHeader(title: 'Inquilino Avalyst'), // 👈 sem const aqui
+
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 16),
+                    _buildGuaranteeCard(),
+                    const SizedBox(height: 16),
+                    _buildClubeAvalystCard(),
+                    const SizedBox(height: 16),
+                    _buildAcertoFacilCard(),
+                    const SizedBox(height: 24),
+                  ],
                 ),
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  // ------------- CARD GARANTIA --------------
+
+  Widget _buildGuaranteeCard() {
+    if (_isOverdue) {
+      // Versão "em atraso"
+      return Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: const Color(0xFFFFC928),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Sua Garantia locatícia\nem atraso',
+              style: TextStyle(
+                color: Color(0xFF333333),
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              height: 40,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF6CC24A),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  elevation: 0,
+                ),
+                onPressed: () {
+                  // TODO: ir para pagamento
+                },
+                child: const Text(
+                  'Realizar o pagamento',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Para manter a sua locação.',
+              style: TextStyle(
+                color: Color(0xFF333333),
+                fontSize: 12,
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      // Versão "está em dia"
+      return Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: const Color(0xFF00AEEF),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            Text(
+              'Sua Garantia locatícia\nestá em dia',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'Aproveite as vantagens Avalyst',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
+  // ------------- CARD CLUBE AVALYST -------------
+
+  Widget _buildClubeAvalystCard() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFF00A58C),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: const Text(
+        'Clube Avalyst\nAproveite agora os descontos e cashback em mais de 3 mil marcas parceiras.',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 15,
+          height: 1.3,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
+
+  // ------------- CARD ACERTO FÁCIL -------------
+
+  Widget _buildAcertoFacilCard() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Row(
+        children: [
+          Container(
+            height: 56,
+            width: 56,
+            decoration: BoxDecoration(
+              color: const Color(0xFFE7F3FF),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            alignment: Alignment.center,
+            child: const Text(
+              'AF',
+              style: TextStyle(
+                color: Color(0xFF003A70),
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          const SizedBox(width: 16),
+          const Expanded(
+            child: Text(
+              'Negocie suas pendências\nsem stress',
+              style: TextStyle(
+                color: Color(0xFF003A70),
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                height: 1.3,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
