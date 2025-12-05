@@ -15,30 +15,37 @@ class SupportScreen extends StatelessWidget {
         children: [
           _buildHeader(context),
           const SizedBox(height: 24),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Row(
-              children: [
-                Expanded(
-                  child: _SupportOptionCard(
-                    icon: Icons.phone_in_talk_outlined,
-                    label: 'Whatsapp\nAvalyst',
-                    onTap: () {
-                      // TODO: abrir link ou deep link do WhatsApp real
-                    },
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: _SupportOptionCard(
+                      icon: Icons.chat_bubble_outline,
+                      label: 'Whatsapp\nAvalyst',
+                      onTap: () {
+                        // TODO: abrir link ou deep link do WhatsApp real
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Abrindo WhatsApp...'),
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: _SupportOptionCard(
-                    icon: Icons.chat_bubble_outline, // TODO: ícone oficial "Envie uma solicitação"
-                    label: 'Envie uma\nsolicitação',
-                    onTap: () {
-                      Navigator.pushNamed(context, SendRequestScreen.routeName);
-                    },
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: _SupportOptionCard(
+                      icon: Icons.person_outline,
+                      label: 'Envie uma\nsolicitação',
+                      onTap: () {
+                        Navigator.pushNamed(context, SendRequestScreen.routeName);
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],
@@ -75,6 +82,7 @@ class SupportScreen extends StatelessWidget {
           const Icon(
             Icons.headset_mic_outlined,
             color: AppColors.avalystGreen,
+            size: 24,
           ),
           const SizedBox(width: 8),
           const Expanded(
@@ -93,7 +101,7 @@ class SupportScreen extends StatelessWidget {
               color: Colors.white,
             ),
             onPressed: () {
-              // TODO: abrir menu
+              Scaffold.of(context).openDrawer();
             },
           ),
         ],
@@ -117,27 +125,29 @@ class _SupportOptionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: Colors.white,
-      borderRadius: BorderRadius.circular(18),
+      borderRadius: BorderRadius.circular(16),
+      elevation: 0,
       child: InkWell(
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(16),
         onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 24),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 32),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(
                 icon,
-                size: 36,
+                size: 48,
                 color: AppColors.avalystGreen,
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 16),
               Text(
                 label,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Color(0xFF203555),
                   fontSize: 14,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ],

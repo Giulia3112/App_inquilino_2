@@ -24,6 +24,7 @@ import 'ui/screens/card_data_screen.dart';
 import 'ui/screens/rent_payment_screen.dart';
 import 'ui/screens/debt_negotiation_screen.dart';
 import 'ui/screens/contact_screen.dart';
+import 'ui/screens/edit_profile_screen.dart';
 
 void main() {
   runApp(const AvalystApp());
@@ -75,6 +76,8 @@ class AvalystApp extends StatelessWidget {
             const DebtNegotiationScreen(),
 
         ContactScreen.routeName: (_) => const ContactScreen(),
+
+        EditProfileScreen.routeName: (_) => const EditProfileScreen(),
       },
 
       locale: const Locale('pt', 'BR'),

@@ -13,52 +13,57 @@ class SendRequestSuccessScreen extends StatelessWidget {
       body: Column(
         children: [
           _buildHeader(context),
-          const SizedBox(height: 24),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Material(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(24),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.people_outline,
-                            color: AppColors.avalystGreen,
-                          ),
-                          SizedBox(width: 8),
-                          Text(
-                            'Enviar solicitação',
+              padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+              child: Transform.translate(
+                offset: const Offset(0, -20),
+                child: Material(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(24),
+                  elevation: 0,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Row(
+                          children: [
+                            Icon(
+                              Icons.people_outline,
+                              color: AppColors.avalystGreen,
+                              size: 20,
+                            ),
+                            SizedBox(width: 8),
+                            Text(
+                              'Enviar solicitação',
+                              style: TextStyle(
+                                color: Color(0xFF203555),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 40),
+                        const Center(
+                          child: Text(
+                            'Solicitação enviada com sucesso!',
+                            textAlign: TextAlign.center,
                             style: TextStyle(
-                              color: Color(0xFF203555),
+                              color: Color(0xFF9E9E9E),
                               fontSize: 16,
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
-                        ],
-                      ),
-                      SizedBox(height: 24),
-                      Center(
-                        child: Text(
-                          'Solicitação enviada com sucesso!',
-                          style: TextStyle(
-                            color: Color(0xFF9E9E9E),
-                            fontSize: 14,
-                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-          const SizedBox(height: 24),
         ],
       ),
     );
@@ -70,7 +75,7 @@ class SendRequestSuccessScreen extends StatelessWidget {
         top: 48,
         left: 20,
         right: 20,
-        bottom: 20,
+        bottom: 40,
       ),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
@@ -90,21 +95,38 @@ class SendRequestSuccessScreen extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          SizedBox(height: 4),
-          Text(
-            'Envie uma solicitação',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-            ),
+        children: [
+          Row(
+            children: [
+              IconButton(
+                padding: EdgeInsets.zero,
+                visualDensity: VisualDensity.compact,
+                icon: const Icon(
+                  Icons.arrow_back_ios,
+                  color: AppColors.avalystGreen,
+                  size: 18,
+                ),
+                onPressed: () => Navigator.pop(context),
+              ),
+              const SizedBox(width: 4),
+              const Expanded(
+                child: Text(
+                  'Envie uma solicitação',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ],
           ),
-          SizedBox(height: 4),
-          Text(
+          const SizedBox(height: 16),
+          const Text(
             'ALAN SERGIO DE CAMPOS',
             style: TextStyle(
               color: Colors.white,
-              fontSize: 18,
+              fontSize: 24,
               fontWeight: FontWeight.w700,
             ),
           ),

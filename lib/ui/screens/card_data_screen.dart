@@ -106,16 +106,27 @@ class CardDataScreen extends StatelessWidget {
         ),
       ),
       child: Row(
-        children: const [
-          Text(
+        children: [
+          IconButton(
+            padding: EdgeInsets.zero,
+            visualDensity: VisualDensity.compact,
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.white,
+              size: 18,
+            ),
+            onPressed: () => Navigator.pop(context),
+          ),
+          const SizedBox(width: 4),
+          const Text(
             'Dados de cartão',
             style: TextStyle(
               color: Colors.white,
               fontSize: 16,
             ),
           ),
-          SizedBox(width: 8),
-          Expanded(
+          const SizedBox(width: 8),
+          const Expanded(
             child: Text(
               'ALAN SERGIO DE CAMPOS',
               textAlign: TextAlign.right,
