@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../theme/app_colors.dart';
+import '../widgets/app_menu_drawer.dart';
 import 'send_request_screen.dart';
 
 class SupportScreen extends StatelessWidget {
@@ -10,6 +11,7 @@ class SupportScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const AppMenuDrawer(),
       backgroundColor: const Color(0xFFF4F5F9),
       body: Column(
         children: [
@@ -79,6 +81,17 @@ class SupportScreen extends StatelessWidget {
       ),
       child: Row(
         children: [
+          IconButton(
+            padding: EdgeInsets.zero,
+            visualDensity: VisualDensity.compact,
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: AppColors.avalystGreen,
+              size: 18,
+            ),
+            onPressed: () => Navigator.pop(context),
+          ),
+          const SizedBox(width: 4),
           const Icon(
             Icons.headset_mic_outlined,
             color: AppColors.avalystGreen,
@@ -95,14 +108,16 @@ class SupportScreen extends StatelessWidget {
               ),
             ),
           ),
-          IconButton(
-            icon: const Icon(
-              Icons.menu,
-              color: Colors.white,
+          Builder(
+            builder: (context) => IconButton(
+              icon: const Icon(
+                Icons.menu,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
             ),
-            onPressed: () {
-              Scaffold.of(context).openDrawer();
-            },
           ),
         ],
       ),

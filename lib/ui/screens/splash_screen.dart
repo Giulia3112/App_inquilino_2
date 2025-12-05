@@ -1,8 +1,8 @@
+// lib/ui/screens/splash_screen.dart
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../theme/app_colors.dart';
 import 'welcome_screen.dart';
-import 'main_shell_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,19 +14,13 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  bool _isLogged = false; // depois trocar por checagem real
-
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 2), () {
-      if (!mounted) return;
 
-      if (_isLogged) {
-        Navigator.pushReplacementNamed(context, MainShellScreen.routeName);
-      } else {
-        Navigator.pushReplacementNamed(context, WelcomeScreen.routeName);
-      }
+    // Pequeno delay antes de ir para a tela de boas-vindas / login
+    Timer(const Duration(seconds: 2), () {
+      Navigator.pushReplacementNamed(context, WelcomeScreen.routeName);
     });
   }
 
@@ -34,6 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        // Gradiente igual ao layout
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.centerLeft,
@@ -46,17 +41,36 @@ class _SplashScreenState extends State<SplashScreen> {
             stops: [0.0, 0.773, 1.0],
           ),
         ),
-        child: const Center(
-          child: Text(
-            'app do inquilino\nAvalyst',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              height: 1.3,
-              fontWeight: FontWeight.w700,
+        child: Stack(
+          children: [
+            // Logo centralizado
+            Center(
+              child: Image.asset(
+                'assets/images/logo_app_inquilino.png',
+                width: 220,
+                fit: BoxFit.contain,
+              ),
             ),
-          ),
+            // Loading embaixo (opcional)
+            Positioned(
+              bottom: 48,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: SizedBox(
+                  width: 32,
+                  height: 32,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.5,
+                    valueColor: const AlwaysStoppedAnimation<Color>(
+                      AppColors.avalystGreen,
+                    ),
+                    backgroundColor: Colors.white.withOpacity(0.25),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

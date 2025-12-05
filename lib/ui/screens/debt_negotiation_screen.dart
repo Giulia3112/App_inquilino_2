@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../theme/app_colors.dart';
+import '../widgets/app_menu_drawer.dart';
 
 class DebtNegotiationScreen extends StatelessWidget {
   static const String routeName = '/debt-negotiation';
@@ -9,6 +10,7 @@ class DebtNegotiationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const AppMenuDrawer(),
       backgroundColor: const Color(0xFFF4F5F9),
       body: Column(
         children: [
@@ -91,7 +93,7 @@ class DebtNegotiationScreen extends StatelessWidget {
             visualDensity: VisualDensity.compact,
             icon: const Icon(
               Icons.arrow_back_ios,
-              color: Colors.white,
+              color: AppColors.avalystGreen,
               size: 18,
             ),
             onPressed: () => Navigator.pop(context),
@@ -105,6 +107,20 @@ class DebtNegotiationScreen extends StatelessWidget {
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
               ),
+            ),
+          ),
+          Builder(
+            builder: (context) => IconButton(
+              padding: EdgeInsets.zero,
+              visualDensity: VisualDensity.compact,
+              icon: const Icon(
+                Icons.menu,
+                color: Colors.white,
+                size: 24,
+              ),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
             ),
           ),
         ],
